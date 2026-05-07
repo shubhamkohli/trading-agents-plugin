@@ -169,9 +169,9 @@ def fetch_fundamentals(ticker: str, as_of: date) -> dict:
     data = {k: info.get(k) for k in keys}
     data["ticker"] = ticker
     data["as_of"] = as_of.isoformat()
-    for k in list(data.keys()):
-        if isinstance(data[k], float):
-            data[k] = _safe(data[k])
+    for k, v in data.items():
+        if isinstance(v, float):
+            data[k] = _safe(v)
 
     def _stmt_to_dict(df):
         if df is None or df.empty:
