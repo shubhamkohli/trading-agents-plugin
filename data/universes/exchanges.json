@@ -1,0 +1,45 @@
+
+{
+  "TSX": {
+    "country": "Canada",
+    "currency": "CAD",
+    "yahoo_suffix": ".TO",
+   00,
+    "description": "Toronto Stock Exchange (>= $50M CAD)"
+  },
+  "TSXV": {
+    "country": "Canada",
+    "currency": "CAD",
+    "yahoo_suffix": ".V",
+    "min_market_cap": 50000000,
+    "description": "TSX Venture Exchange (>= $50M CAD)"
+  },
+  "NEO": {
+    "country": "Canada",
+    "currency": "CAD",
+    "yahoo_suffix": ".NE",
+    "min_market_cap": 50000000,
+    "description": "Cboe Canada / NEO (>= $50M CAD)"
+  },
+  "CSE": {
+    "country": "Canada",
+    "currency": "CAD",
+    "yahoo_suffix": ".CN",
+    "min_market_cap": 50000000,
+    "description": "Canadian Securities Exchange (>= $50M CAD)"
+  },
+  "NSE": {
+    "country": "India",
+    "currency": "INR",
+    "yahoo_suffix": ".NS",
+    "min_market_cap": 1000000000,
+    "description": "National Stock Exchange of India (>= ₹100 crore)"
+  },
+  "BSE": {
+    "country": "India",
+    "currency": "INR",
+    "yahoo_suffix": ".BO",
+    "min_market_cap": 1000000000,
+    "description": "Bombay Stock Exchange (>= ₹100 crore)"
+  }
+}
