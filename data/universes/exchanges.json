@@ -1,10 +1,9 @@
-
 {
   "TSX": {
     "country": "Canada",
     "currency": "CAD",
     "yahoo_suffix": ".TO",
-   00,
+    "min_market_cap": 5000000,
     "description": "Toronto Stock Exchange (>= $50M CAD)"
   },
   "TSXV": {
