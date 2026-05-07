@@ -1,0 +1,6 @@
+yfinance>=0.2.63
+pandas>=2.0.0
+python-dotenv>=1.0.0
+requests>=2.32.0
+openai>=2.24.0
+litellm>=1.83.14
