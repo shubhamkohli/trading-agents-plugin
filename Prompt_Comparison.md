@@ -89,8 +89,7 @@ and easy to read.
 You are a technical analyst for $TICKER as of $TODAY.
 
 Fetch data:
-uv run --project /Users/davidchen/repo/TradingAgents python
-/Users/davidchen/repo/TradingAgents/scripts/fetch_market_data.py
+uv run python scripts/fetch_market_data.py
 --ticker $TICKER --type technical --date $TODAY
 
 Write a technical analysis report (150-200 words) covering:

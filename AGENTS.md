@@ -45,7 +45,5 @@ Three copies of the pipeline prompt exist (currently near-identical):
 
 ## Gotchas
 
-- **`scripts/fetch_market_data.py` is corrupted.** Contains PowerShell heredoc wrapping `scan_universe.py` content. Does not work. Restore from git history or rewrite.
-- **Hardcoded paths** in `commands/trading-analysis.md`, `.claude/commands/trading-analysis.md`, and `skills/trading-analysis/SKILL.md` — all contain stale `/Users/davidchen/repo/...` paths. `.opencode/commands/trading-analysis.md` is the only version using relative paths.
 - **No tests, no CI, no pre-commit.** Manual verification only.
 - **`.opencode/package.json`** is gitignored — local shim for `@opencode-ai/plugin`.
