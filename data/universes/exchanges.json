@@ -1,9 +1,9 @@
-{
+﻿{
   "TSX": {
     "country": "Canada",
     "currency": "CAD",
     "yahoo_suffix": ".TO",
-    "min_market_cap": 5000000,
+    "min_market_cap": 50000000,
     "description": "Toronto Stock Exchange (>= $50M CAD)"
   },
   "TSXV": {
@@ -32,13 +32,13 @@
     "currency": "INR",
     "yahoo_suffix": ".NS",
     "min_market_cap": 1000000000,
-    "description": "National Stock Exchange of India (>= ₹100 crore)"
+    "description": "National Stock Exchange of India (>= â‚¹100 crore)"
   },
   "BSE": {
     "country": "India",
     "currency": "INR",
     "yahoo_suffix": ".BO",
     "min_market_cap": 1000000000,
-    "description": "Bombay Stock Exchange (>= ₹100 crore)"
+    "description": "Bombay Stock Exchange (>= â‚¹100 crore)"
   }
 }
