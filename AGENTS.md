@@ -1,73 +1,51 @@
-
 # AGENTS.md
 
 ## Project
 
-This repository.py` fetches market, news, fundamentals, and macro data using `yfinance`.This repository is `trading-agents-plugin`, a multi-agent trading analysis plugin originally designed for Claude Code slash commands.
-- `commands/trading-analysis.md` contains the original Claude Code slash command prompt.
-- `.claude/commands/trading-analysis.md` mirrors the Claude command.
-- `skills/trading-analysis/` contains plugin skill content.
-- The project uses Python 3.10+ and `uv`.
+Multi-agent trading analysis plugin for Claude Code & OpenCode. 9 LLM subagents in a 5-phase pipeline → BUY/SELL/HOLD decision. Market data via `yfinance` (free, no API key).
 
-## OpenCode Migration Goals
+## Setup
 
-1. Remove hardcoded author-specific paths.
-2. Make command examples portable across Windows, macOS, and Linux.
-3. Add OpenCode-compatible command documentation.
-4. Keep Claude Code compatibility unless explicitly changing it.
-5. Prefer small, reviewable changes.
-6. Add tests before large refactors.
-7. Keep market-data fetching deterministic where possible.
-8. Make output structured and easy to validate.
+```bash
+uv sync
+```
+Python >= 3.10. No linter, formatter, typechecker, or test suite configured.
 
-## Development Rules
+## Key Commands
 
-- Do not introduce paid LLM API dependencies for core market-data fetching.
-- Do not remove the existing Claude command unless a replacement exists.
-- Do not hardcode local machine paths.
-- Use relative paths from the repository root whenever possible.
-- Prefer `uv run python scripts/fetch_market_data.py ...` for examples.
-- Keep Windows PowerShell compatibility in documentation.
-- Keep Bash/macOS/Linux examples where useful.
-- Avoid broad rewrites unless requested.
-- When editing prompts, preserve the 7-agent pipeline:
-  1. Technical Analyst
-  2. News & Sentiment Analyst
-  3. Fundamentals Analyst
-  4. Macro Analyst
-  5. Bull Analyst
-  6. Bear Analyst
-  7. Risk Analyst
-  followed by Research Manager, Trader, and Portfolio Manager.
+```
+uv run python scripts/fetch_market_data.py --ticker NVDA --type technical
+uv run python scripts/fetch_market_data.py --ticker NVDA --type news
+uv run python scripts/fetch_market_data.py --ticker NVDA --type fundamentals
+uv run python scripts/fetch_market_data.py --ticker MACRO --type macro
 
-## Financial Safety
+uv run python scripts/scan_universe.py --exchange TSX --top 25
+uv run python scripts/scan_universe.py --exchange ALL --top 100
+```
 
-This project produces educational trading analysis, not personalized financial advice.
+Verify changes by running the data fetcher manually.
 
-Every final user-facing trading output should include or imply:
+## Architecture
 
-- This is not financial advice.
-- Users should verify data independently.
-- Position sizing and risk controls are required.
-- Market data can be delayed, incomplete, or inaccurate.
+9 agents in 5 phases — preserved order matters when editing prompts:
 
-## Testing
+| Phase | Agents | Execution |
+|-------|--------|-----------|
+| 1 | Technical, News, Fundamentals, Macro | Parallel |
+| 2 | Bull → Bear (rebuts Bull) → Risk | Sequential |
+| 3 | Research Manager | — |
+| 4 | Trader (entry/stop/sizing) | — |
+| 5 | Portfolio Manager (BUY/SELL/HOLD) | — |
 
-Before claiming a change works, run:
+Three copies of the pipeline prompt exist (currently near-identical):
+- `commands/trading-analysis.md` — Claude Code slash command
+- `.claude/commands/trading-analysis.md` — Claude Code internal copy
+- `.opencode/commands/trading-analysis.md` — **canonical OpenCode version** (uses relative paths, no hardcoded routes)
+- `skills/trading-analysis/SKILL.md` — skill definition
 
-```powershell
-uv run python scripts\fetch_market_data.py --ticker NVDA --type technical
-uv run python scripts\fetch_market_data.py --ticker NVDA --type news
-uv run python scripts\fetch_market_data.py --ticker NVDA --type fundamentals
-uv run python scripts\fetch_market_data.py --ticker MACRO --type macro
+## Gotchas
 
-The goal of this adoption branch is to make the project work well with OpenCode and Zed while preserving compatibility with the existing Claude Code plugin structure.
-
-
-## Current Architecture
-
-- `scripts/fetch_market_data.py` fetches market, news, fundamentals, and macro data using `yfinance`.
-- `commands/trading-analysis.md` contains the original Claude Code slash command prompt.
-- `.claude/commands/trading-analysis.md` mirrors the Claude command.
-- `skills/trading-analysis/` contains plugin skill content.
-- The project uses Python 3.10+ and `uv`.
+- **`scripts/fetch_market_data.py` is corrupted.** Contains PowerShell heredoc wrapping `scan_universe.py` content. Does not work. Restore from git history or rewrite.
+- **Hardcoded paths** in `commands/trading-analysis.md`, `.claude/commands/trading-analysis.md`, and `skills/trading-analysis/SKILL.md` — all contain stale `/Users/davidchen/repo/...` paths. `.opencode/commands/trading-analysis.md` is the only version using relative paths.
+- **No tests, no CI, no pre-commit.** Manual verification only.
+- **`.opencode/package.json`** is gitignored — local shim for `@opencode-ai/plugin`.

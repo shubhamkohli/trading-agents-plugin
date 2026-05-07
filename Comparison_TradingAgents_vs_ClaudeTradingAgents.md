@@ -405,7 +405,7 @@ quick_thinking_llm → All 4 analysts, Trader, 3 risk analysts
 - **No file output**
 - **Slack:** Posts formatted decision card to `#investment` and `#gliaclaw-investment`
 
-The output format for the decision card:
+The output format for the decision card:example
 
 ```
 *NVDA* — *BUY (Overweight)* 📈
