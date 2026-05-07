@@ -14,6 +14,8 @@ from datetime import date, timedelta
 import yfinance as yf
 import pandas as pd
 
+from scripts.exchange_utils import format_ticker_for_yahoo
+
 
 def _safe(val):
     try:
@@ -26,7 +28,8 @@ def _safe(val):
 def fetch_technical(ticker: str, as_of: date) -> dict:
     end = as_of + timedelta(days=1)
     start = as_of - timedelta(days=520)
-    tk = yf.Ticker(ticker)
+    yf_ticker = format_ticker_for_yahoo(ticker)
+    tk = yf.Ticker(yf_ticker)
     hist = tk.history(start=start.isoformat(), end=end.isoformat())
     if hist.empty:
         return {"error": f"No price data for {ticker}"}
@@ -100,7 +103,8 @@ def fetch_technical(ticker: str, as_of: date) -> dict:
 
 def fetch_news(ticker: str, as_of: date) -> dict:
     # yfinance always returns latest news regardless of as_of date
-    tk = yf.Ticker(ticker)
+    yf_ticker = format_ticker_for_yahoo(ticker)
+    tk = yf.Ticker(yf_ticker)
     news = tk.news or []
 
     items = []
@@ -153,7 +157,8 @@ def fetch_macro(as_of: date) -> dict:
 
 
 def fetch_fundamentals(ticker: str, as_of: date) -> dict:
-    tk = yf.Ticker(ticker)
+    yf_ticker = format_ticker_for_yahoo(ticker)
+    tk = yf.Ticker(yf_ticker)
     info = tk.info or {}
 
     keys = [
